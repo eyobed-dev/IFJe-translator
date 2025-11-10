@@ -1,21 +1,16 @@
-import java.util.HashMap;
-import java.util.Map;
+public enum Token{
+    // Function identifiers
+    ADD, SUB, MUL, DIV, MOD, POW, TERN,
 
-//These are The Tokens The DFA in the main method will choose after reaching final states
-public enum Token {
-    DIGIT,
-    FRACTION,
-    SIGN,
-    EXPONENT,
-    L_PARENTHESIS,
-    R_PARENTHESIS,
-    COMMA,
-    ADD,
-    SUBTRACT,
-    MULTIPLY,
-    DIVIDE,
-    MODULO,
-    POWER,
-    TERNARY
+    // Literals
+    NUMBER,
+
+    // Single-character tokens
+    LEFT_PAREN, RIGHT_PAREN, COMMA,
+
+    // End of file
+    EOF,
+
+    // Invalid token
+    UNKNOWN
 }
-        private static final Map<String, Token> Keyword = new HashMap<String, Token>();
