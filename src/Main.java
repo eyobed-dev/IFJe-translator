@@ -4,23 +4,6 @@ import java.util.Map;
 
 public class Main {
 
-    //These are The Tokens The DFA in the main method will choose after reaching final states
-    enum Token {
-        DIGIT,
-        FRACTION,
-        SIGN,
-        EXPONENT,
-        L_PARENTHESIS,
-        R_PARENTHESIS,
-        COMMA,
-        ADD,
-        SUBTRACT,
-        MULTIPLY,
-        DIVIDE,
-        MODULO,
-        POWER,
-        TERNARY
-    }
 
     //This is the states of the DFA
 
@@ -30,11 +13,9 @@ public class Main {
 
     //A keyword table to avoid building a lot of states for each keyword(page 15 and 22 of slide 5)
     //It is implemented as Hashmap
-    private static final Map<String, Token> Keyword = new HashMap<String, Token>();
 
 
     public static void main(String[] args) {
-
 
         //Failure if there is no input
         if (args.length == 0) {
@@ -42,31 +23,20 @@ public class Main {
             return;
         }
 
-        //add the keywords in at the start of program
-        Keyword.put("add", Token.ADD);
-        Keyword.put("sub", Token.SUBTRACT);
-        Keyword.put("mul", Token.MULTIPLY);
-        Keyword.put("div", Token.DIVIDE);
-        Keyword.put("mod", Token.MODULO);
-        Keyword.put("pow", Token.POWER);
-        Keyword.put("tern", Token.TERNARY);
-
-
-
         //Get the first argument which is the input language
-        String input = args[0];
+        String input = args[0].trim();
 
+        // Lexical Analysis
+        Scanner scanner = new Scanner(input);
+        ArrayList<Token> tokens = scanner.scan();
 
-        //The final outputs of the DFA is dumped here which is token stream
-        //The pushdown automaton will input this
-        ArrayList<Token> tokens = new ArrayList<Token>();
+        System.out.println("Tokens: " + tokens);
 
-        //Read string according to page 10 of slide 5
-        String holder = "";
+        //Syntax Analysis
+        Parser parser = new Parser(tokens);
+        String output = parser.parse();
 
-        //State variable initialization
-        State currentState = State.S;
-
+        System.out.println(output);
 
 
         //read characters one by one
