@@ -3,7 +3,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
-        //there is no input
+        //fail if there is no input
         if (args.length == 0) {
             System.err.println("No input. Failure");
             return;
@@ -22,13 +22,18 @@ public class Main {
         List<Token> tokens = scanner.scan();
 
         //debug
-        System.out.println("Tokens: " + tokens);
+        //System.out.println("Tokens: " + tokens);
 
-      //Syntax Analysis
-      Parser parser = new Parser(tokens);
-       Tree output = Parser.parse();
+        //Syntax Analysis
+        Parser parser = new Parser(tokens);
+       Tree tree = Parser.parse();
+       // System.out.println("Parse Tree: " + tree);
 
-      System.out.println(output);
+        // Code Generation
+        CodeGeneration codeGen = new CodeGeneration(tree);
+        String output = codeGen.generate();
+
+        System.out.println("Output: " + output);
 
     }
 }

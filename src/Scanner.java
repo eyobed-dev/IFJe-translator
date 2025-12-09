@@ -34,37 +34,34 @@ public class Scanner {
             "div", TokenType.DIV,
             "mod", TokenType.MOD,
             "pow", TokenType.POW,
-            "tern", TokenType.TERN
-    );
+            "tern", TokenType.TERN);
 
     // final non changing string to hold input
     private final String input;
 
-    //this is tapereader input of dfa
+    // this is tapereader input of dfa
     private int readHead = 0;
 
-    //holder for concatnation
+    // holder for concatnation
     private String str = "";
 
-    //constructor
+    // constructor
     public Scanner(String input) {
         this.input = input;
     }
 
-    //scan the input to return the list of tokens
+    // scan the input to return the list of tokens
     public List<Token> scan() {
         List<Token> tokens = new ArrayList<>();
         Token token;
         do {
             token = getNextToken();
             tokens.add(token);
-        }
-        while (Objects.requireNonNull(token).type != TokenType.EOF);
+        } while (Objects.requireNonNull(token).type != TokenType.EOF);
         return tokens;
     }
 
-
-    //Implementation of the DFA
+    // Implementation of the DFA
     private Token getNextToken() {
         str = "";
         if (readHead == input.length()) {
@@ -73,13 +70,14 @@ public class Scanner {
 
         State state = State.START;
 
-        //we now begin switching of state. final states are mostly useless and added here for completness and understanding
+        // we now begin switching of state. final states are mostly useless and added
+        // here for completness and understanding
         while (readHead < input.length()) {
             char c = input.charAt(readHead);
 
             switch (state) {
                 case START:
-                    if (Character.isWhitespace(c) || c == '\n' ) {
+                    if (Character.isWhitespace(c) || c == '\n') {
                         readHead++;
                         continue;
                     } else if (c == '/') {
@@ -89,11 +87,11 @@ public class Scanner {
                     } else if (c == '(') {
                         state = State.LEFT_PAREN;
                         readHead++;
-                        return new  Token(TokenType.LEFT_PAREN, "(");
+                        return new Token(TokenType.LEFT_PAREN, "(");
                     } else if (c == ')') {
                         state = State.RIGHT_PAREN;
                         readHead++;
-                        return new   Token(TokenType.RIGHT_PAREN, ")");
+                        return new Token(TokenType.RIGHT_PAREN, ")");
                     } else if (c == ',') {
                         state = State.COMMA;
                         readHead++;
@@ -109,7 +107,7 @@ public class Scanner {
                         readHead++;
                         continue;
                     } else if (c == '+' || c == '-') {
-                        str +=c;
+                        str += c;
                         state = State.SIGN;
                         readHead++;
                         continue;
@@ -127,7 +125,7 @@ public class Scanner {
                             throw new RuntimeException("Failure. Unknown function: " + str);
                         } else {
                             state = State.FUNCTION;
-                            return new Token (keywords.get(str), str);
+                            return new Token(keywords.get(str), str);
 
                         }
                     }
@@ -155,7 +153,7 @@ public class Scanner {
                         readHead++;
                         continue;
                     } else {
-                        return new Token(TokenType.NUMBER,str);
+                        return new Token(TokenType.NUMBER, str);
 
                     }
                 case SLASH:
@@ -163,21 +161,24 @@ public class Scanner {
                         state = State.COMMENT;
                         readHead++;
                         continue;
-                    }else{
+                    } else {
                         throw new RuntimeException("Failure. Unrecognized character: /");
                     }
                 case DOT:
-                    if(Character.isDigit(c)) {
+                    if (Character.isDigit(c)) {
+                        readHead++;
                         str += c;
                         state = State.FRACTION;
                         continue;
                     }
                 case EXPONENT:
                     if (Character.isDigit(c)) {
+                        str += c;
                         state = State.FP_NUMBER;
                         readHead++;
                         continue;
-                    } else if ( c == '+' || c == '-') {
+                    } else if (c == '+' || c == '-') {
+                        str += c;
                         state = State.EXPONENT_SIGN;
                         readHead++;
                         continue;
@@ -185,9 +186,18 @@ public class Scanner {
                     }
                 case EXPONENT_SIGN:
                     if (Character.isDigit(c)) {
+                        str += c;
                         state = State.FP_NUMBER;
                         readHead++;
                         continue;
+                    }
+                case FP_NUMBER:
+                    if (Character.isDigit(c)) {
+                        str += c;
+                        readHead++;
+                        continue;
+                    } else {
+                        return new Token(TokenType.NUMBER, str);
                     }
                 case FRACTION:
                     if (Character.isDigit(c)) {
@@ -200,20 +210,21 @@ public class Scanner {
                         state = State.EXPONENT;
                         readHead++;
                         continue;
-                    }else{
+                    } else {
                         state = State.FP_NUMBER;
-                        return new Token(TokenType.NUMBER,str);
+                        return new Token(TokenType.NUMBER, str);
                     }
                 case COMMENT:
-                    if(c == '*'){
+                    if (c == '*') {
                         state = State.COMMENT_END;
                         readHead++;
                         continue;
                     } else {
                         readHead++;
+                        continue;
                     }
                 case COMMENT_END:
-                    if( c == '/'){
+                    if (c == '/') {
                         state = State.START;
                         readHead++;
                         continue;
@@ -227,6 +238,5 @@ public class Scanner {
 
         return null;
     }
-
 
 }

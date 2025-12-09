@@ -1,9 +1,16 @@
+
+//This class holds the leaf nodes of the parse tree
 public class Tree {
+      //Node value
       String value;
+      //Left leaf
       Tree left;
+      //Right leaf
       Tree right;
+      //Third leaf(for the ternary operator)
       Tree third;
 
+      //constructor
       public Tree(String value) {
             this.value = value;
       }
