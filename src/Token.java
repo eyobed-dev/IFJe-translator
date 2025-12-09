@@ -1,16 +1,16 @@
-public enum Token{
-    // Function identifiers
-    ADD, SUB, MUL, DIV, MOD, POW, TERN,
+public class Token {
+    public final TokenType type;
+    public final String value;
 
-    // Literals
-    NUMBER,
+    public Token(TokenType type, String value) {
+        this.type = type;
+        this.value = value;
+    }
 
-    // Single-character tokens
-    LEFT_PAREN, RIGHT_PAREN, COMMA,
-
-    // End of file
-    EOF,
-
-    // Invalid token
-    UNKNOWN
+    @Override
+    public String toString() {
+        return  "["+ value + "]";
+    }
 }
+
+

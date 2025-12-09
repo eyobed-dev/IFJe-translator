@@ -1,28 +1,34 @@
-import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        //Failure if there is no input
+        //there is no input
         if (args.length == 0) {
             System.err.println("No input. Failure");
             return;
         }
+        String input ="";
 
-        //Get the first argument which is the input language
-        String input = args[0].trim();
+        //Get the all argument which is the input language
+        for (String arg : args) {
+            input += arg;
+        }
+
+        System.out.println("Input: " + input);
 
         // Lexical Analysis
         Scanner scanner = new Scanner(input);
-        ArrayList<Token> tokens = scanner.scan();
+        List<Token> tokens = scanner.scan();
 
+        //debug
         System.out.println("Tokens: " + tokens);
 
-        //Syntax Analysis
-        Parser parser = new Parser(tokens);
-        String output = parser.parse();
-
-        System.out.println(output);
+//        //Syntax Analysis
+//        Parser parser = new Parser(tokens);
+//        String output = parser.parse();
+//
+//        System.out.println(output);
 
     }
 }
