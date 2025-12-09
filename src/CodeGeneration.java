@@ -44,9 +44,27 @@ public class CodeGeneration {
             output += ":";
             output += generateOutput(tree.third, precedence);
         } else {
-            output += generateOutput(tree.left, precedence);
-            output += symbol;
-            output += generateOutput(tree.right, precedence);
+
+            /* reference:I have used ai to assist during this to resolve the precedence issue  */
+
+                 // For left child pass current precedence
+        // For rightassociative operators (pow, tern), if left child has same precedence, it needs parens
+        int leftPrecedence = precedence;
+        if (isRightAssociative(tree.value) && tree.left != null) {
+            leftPrecedence = precedence + 1; // Force parens on left child if same precedence
+        }
+        
+        output += generateOutput(tree.left, leftPrecedence);
+        output += symbol;
+        
+        // For right child pass current precedence
+        // For leftassociative operators, if right child has same precedence, it needs parens
+        int rightPrecedence = precedence;
+        if (!isRightAssociative(tree.value) && tree.right != null) {
+            rightPrecedence = precedence + 1; // Force parens on right child if same precedence
+        }
+        
+        output += generateOutput(tree.right, rightPrecedence);
         }
 
         //add parentheses if needed
@@ -94,5 +112,10 @@ public class CodeGeneration {
             default:
                 return "";
         }
+    }
+
+    // Helper method to check if operator is right-associative
+    private boolean isRightAssociative(String operator) {
+        return operator.equals("pow") || operator.equals("tern");
     }
 }
