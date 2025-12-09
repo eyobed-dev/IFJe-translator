@@ -24,11 +24,11 @@ public class Main {
         //debug
         System.out.println("Tokens: " + tokens);
 
-//        //Syntax Analysis
-//        Parser parser = new Parser(tokens);
-//        String output = parser.parse();
-//
-//        System.out.println(output);
+      //Syntax Analysis
+      Parser parser = new Parser(tokens);
+       Tree output = Parser.parse();
+
+      System.out.println(output);
 
     }
 }

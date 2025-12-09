@@ -37,7 +37,7 @@ public class Scanner {
             "tern", TokenType.TERN
     );
 
-    // final not changing string to hold input
+    // final non changing string to hold input
     private final String input;
 
     //this is tapereader input of dfa
@@ -46,10 +46,12 @@ public class Scanner {
     //holder for concatnation
     private String str = "";
 
+    //constructor
     public Scanner(String input) {
         this.input = input;
     }
 
+    //scan the input to return the list of tokens
     public List<Token> scan() {
         List<Token> tokens = new ArrayList<>();
         Token token;
@@ -71,7 +73,7 @@ public class Scanner {
 
         State state = State.START;
 
-        //we now begin switching of state final states are mostly useless and added here for completness and understanding
+        //we now begin switching of state. final states are mostly useless and added here for completness and understanding
         while (readHead < input.length()) {
             char c = input.charAt(readHead);
 
