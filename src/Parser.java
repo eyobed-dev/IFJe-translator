@@ -65,7 +65,8 @@ public class Parser {
 
     static boolean checkfunction(String t) {
 
-        return t.equals("add") || t.equals("sub") || t.equals("mul") || t.equals("div") || t.equals("pow") || t.equals("tern");
+        return t.equals("add") || t.equals("sub") || t.equals("mul") || t.equals("div") || t.equals("mod")
+                || t.equals("pow") || t.equals("tern");
     }
 }
 
